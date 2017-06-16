@@ -20,11 +20,11 @@ import java.util.List;
  */
 public class ClienteDAO {
 
-    private final String stmtInserir = "INSERT INTO cliente (nome, email, cpf) values( ?,  ?,  ?);";
+    private final String stmtInserir = "INSERT INTO cliente (nome, sobrenome, cpf) values( ?,  ?,  ?);";
     private final String stmtAlterar = "UPDATE cliente SET nome = ?, sobrenome = ?, cpf = ? WHERE id = ?;";
     private final String stmtDelete = "DELETE FROM cliente WHERE id = ?;";
-    private final String stmtGetClinte = "SELECT * FROM clinte WHERE id = ?";
-    private final String stmtGetClintes = "SELECT * FROM clinte";
+    private final String stmtGetCliente = "SELECT * FROM cliente WHERE id = ?";
+    private final String stmtGetClientes = "SELECT * FROM cliente";
 
     public List<Cliente> listaClientes() {
         Connection connection = null;
@@ -33,12 +33,11 @@ public class ClienteDAO {
         List<Cliente> listCliente = new ArrayList<>();
         try {
             connection = new ConnectionFactory().getConnection();
-            stmt = connection.prepareStatement(stmtGetClintes);
+            stmt = connection.prepareStatement(stmtGetClientes);
             rs = stmt.executeQuery();
-            stmt.close();
             while (rs.next()) {
                 Cliente c = new Cliente(rs.getString("nome"),
-                        rs.getString("sobrenome"), rs.getInt("cpf"));
+                rs.getString("sobrenome"), rs.getInt("cpf"));
                 c.setId(rs.getInt("id"));
                 listCliente.add(c);
             }
@@ -47,12 +46,15 @@ public class ClienteDAO {
             throw new RuntimeException(e);
         } finally {
             try {
+                stmt.close();
                 connection.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());
             }
         }
     }
+    
+   
 
     public Cliente getCliente(int id) {
         Connection connection = null;
@@ -61,13 +63,13 @@ public class ClienteDAO {
         Cliente c = null;
         try {
             connection = new ConnectionFactory().getConnection();
-            stmt = connection.prepareStatement(stmtGetClinte);
+            stmt = connection.prepareStatement(stmtGetCliente);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             stmt.close();
             while (rs.next()) {
                 c = new Cliente(rs.getString("nome"),
-                        rs.getString("sobrenome"), rs.getInt("cpf"));
+                rs.getString("sobrenome"), rs.getInt("cpf"));
                 c.setId(rs.getInt("id"));
             }
             return c;
@@ -116,11 +118,11 @@ public class ClienteDAO {
             stmt.setInt(3, cliente.getCpf());
             stmt.setInt(4, cliente.getId());
             stmt.execute();
-            stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             try {
+                stmt.close();
                 connection.close();
             } catch (SQLException ex) {
                 System.out.println(ex.getMessage());

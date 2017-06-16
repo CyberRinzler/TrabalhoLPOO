@@ -19,9 +19,9 @@ import java.util.List;
 public class MaterialDAO {
     
     
-    public List<Material> listaMateriais(){
-        return;
-    }
+    //public List<Material> listaMateriais(){
+    //    return;
+    //}
     
     public Modelo getModelo(Material material){
         Connection connection = null;

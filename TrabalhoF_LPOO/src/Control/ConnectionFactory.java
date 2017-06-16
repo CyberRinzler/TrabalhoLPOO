@@ -22,7 +22,7 @@ public class ConnectionFactory {
             String mydatabase = "lpoo_contatos";
             String url = "jdbc:mysql://" + serverName + "/" + mydatabase; // a JDBC url  
             String username = "root";
-            String password = "root";
+            String password = "";
             return connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

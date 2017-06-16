@@ -35,8 +35,8 @@ public class TapeteDAO {
             rs = stmt.executeQuery();
             stmt.close();
             while (rs.next()) {
-                m = new Material(rs.getInt("id"));
-                m = 
+                Material material = new Material(rs.getInt("id"));
+                m = ;
             }
             return p;
         } catch (SQLException e) {
